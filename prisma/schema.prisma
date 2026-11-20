@@ -1,0 +1,51 @@
+// AI-Powered Recipe Finder — Prisma schema
+// SQLite is used as the local-first store. Recipe ingredients, instructions,
+// macros and tags are stored as JSON-serialized strings so the pure-function
+// recipe-data module remains the single source of truth for the seeded dataset.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Recipe {
+  id           String   @id @default(cuid())
+  title        String
+  cuisine      String
+  ingredients  String // JSON: [{ name, quantity }]
+  instructions String // JSON: string[]
+  prepTime     Int     // minutes
+  cookTime     Int     // minutes
+  servings     Int
+  macros       String // JSON: { calories, protein, carbs, fat } per serving
+  tags         String // JSON: string[]
+  difficulty   String // easy | medium | hard
+  createdAt    DateTime @default(now())
+}
+
+model PantryScan {
+  id                 String   @id @default(cuid())
+  imagePath          String?
+  manualIngredients  String
+  detectedIngredients String? // JSON: [{ name, quantity, confidence }]
+  createdAt          DateTime @default(now())
+}
+
+model SavedRecipe {
+  id       String   @id @default(cuid())
+  recipeId String   @unique
+  savedAt  DateTime @default(now())
+}
+
+model ShoppingListItem {
+  id         String   @id @default(cuid())
+  name       String
+  quantity   String?
+  recipeId   String?
+  addedAt    DateTime @default(now())
+  purchased  Boolean  @default(false)
+}

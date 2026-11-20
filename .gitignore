@@ -1,0 +1,39 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.*
+
+# build
+.next/
+out/
+build/
+dist/
+
+# prisma local sqlite db (keep schema, ignore data)
+db/*.db
+db/*.db-journal
+db/*.db-shm
+db/*.db-wal
+
+# env
+.env
+.env.local
+.env.*.local
+
+# logs
+dev.log
+server.log
+*.log
+
+# bun / next
+bun.lockb
+.bun/
+next-env.d.ts
+
+# editor / os
+.DS_Store
+.vscode/
+.idea/
+
+# agent context (per-task work records)
+agent-ctx/
